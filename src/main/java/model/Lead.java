@@ -1,5 +1,8 @@
 package model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Lead {
 	private int id;
 	private String name;
@@ -25,7 +28,7 @@ public class Lead {
 	
 	@Override
 	public String toString(){
-		return "Lead name="+ name+"info= "+info+" id ="+id;
+		return "Lead name="+ name+" info= "+info+" id ="+id;
 		
 	}
 	

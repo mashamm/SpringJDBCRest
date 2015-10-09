@@ -1,12 +1,14 @@
 package test.jdbctemplate;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import dao.LeadDAO;
+import dao.LeadDaoJdbcSupport;
 import model.Lead;
-import model.LeadDAO;
-import model.LeadDAOJDBCTemplateImpl;
+
 
 public class TestJdbctemplate {
 
@@ -15,31 +17,33 @@ public class TestJdbctemplate {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
          
         //Get the LeadDAO Bean
-        LeadDAO leadDAO = ctx.getBean("LeadDAO", LeadDAOJDBCTemplateImpl.class);
+        LeadDAO leadDAO = ctx.getBean("LeadDAO",LeadDaoJdbcSupport.class);
          
         //Run some tests for JDBC CRUD operations
-        Lead lead = new Lead();
-       
-        lead.setName("Jenny");
-        lead.setInfo("developer");
+    
+        
          
         //Create
-        leadDAO.save(lead);
+        leadDAO.save("Masha","info");
          
         //Read
         Lead lead1 = leadDAO.getById(4);
         System.out.println("Lead Retrieved::"+lead1);
          
         //Update
-        lead.setInfo("CEO");
-        leadDAO.update(lead);
+        try {
+			leadDAO.update(4,"Max","PM");
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
          
         //Get All
         List<Lead> leadList = leadDAO.getAll();
         System.out.println(leadList);
          
         //Delete
-        leadDAO.deleteById(1);
+        leadDAO.deleteById(-1);
          
         //Close Spring Context
         ctx.close();
