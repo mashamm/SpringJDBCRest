@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Component;
 
 import model.Lead;
+
 @Component
 public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 
-	public void save(String name,String info) {
+	public void save(String name, String info) {
 		Lead lead = new Lead();
 		lead.setName(name);
 		lead.setInfo(info);
@@ -40,12 +40,9 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 				return lead;
 			}
 		});
-
 		return lead;
-
 	}
-
-	public void update(int id,String name,String info)throws IOException {
+	public void update(int id, String name, String info) throws IOException {
 		String query = "update leads set name=?, info=? where id=?";
 		Lead lead = new Lead();
 		lead.setId(id);
@@ -57,9 +54,7 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 			System.out.println("Lead updated with id=" + lead.getId());
 		} else
 			System.out.println("No lead found with id=" + lead.getId());
-
 	}
-
 	public void deleteById(int id) {
 		String query = "delete from leads where id=?";
 		int out = getJdbcTemplate().update(query, id);
@@ -67,9 +62,7 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 			System.out.println("Lead deleted with id=" + id);
 		} else
 			System.out.println("No lead found with id=" + id);
-
 	}
-
 	public List<Lead> getAll() {
 		String query = "select id, name, info from leads";
 		List<Lead> leadList = new ArrayList<Lead>();
