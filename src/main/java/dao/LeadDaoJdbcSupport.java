@@ -42,8 +42,8 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 		return Constants.INSERT_FAILED;
 	}
 
+	
 	public Lead get(int id) {
-		
 		Lead lead = getJdbcTemplate().queryForObject(Constants.GETBYID, new Object[] { id },
 		new RowMapper<Lead>() {
 		public Lead mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -55,8 +55,8 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 		return lead;
 		}
 	
-	public int update(int id, String name, String info) throws LeadNotFoundException {
 	
+	public int update(int id, String name, String info) throws LeadNotFoundException {
 		Object[] args = new Object[] { name, info, id };
 		int out = getJdbcTemplate().update(Constants.UPDATE, args);
 		if (out > 0) 
@@ -65,14 +65,15 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 			 throw new LeadNotFoundException("There is no lead with id="+id);
 		}
 	
+	
 	public void delete (int id) throws LeadNotFoundException {
-		
 		int out = getJdbcTemplate().update(Constants.DELETE, id);
 		if (out<0) 
 			throw new LeadNotFoundException("Lead with id="+id +"wasn't deleted");		
 	}
+	
+	
 	public List<Lead> getAll() {
-		
 		List<Lead> leadList = new ArrayList<Lead>();
 		List<Map<String, Object>> leadRows = getJdbcTemplate().queryForList(Constants.GETALL);
 		for (Map<String, Object> leadRow : leadRows) {
