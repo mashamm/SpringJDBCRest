@@ -1,72 +1,80 @@
 package dao;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import model.Lead;
+import model.LeadNotFoundException;
 
 @Component
 public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 
-	public void save(String name, String info) {
-		Lead lead = new Lead();
-		lead.setName(name);
-		lead.setInfo(info);
-		String query = "insert into leads (name, info) values (?,?)";
-		Object[] args = new Object[] { lead.getName(), lead.getInfo() };
-		int out = getJdbcTemplate().update(query, args);
-		if (out != 0) {
-			System.out.println("Lead saved with name=" + lead.getName());
-		} else
-			System.out.println("Lead save failed with id=" + lead.getId());
+	public int create(final String name,final String info) {
+		
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		 int out=getJdbcTemplate().update(new PreparedStatementCreator() {  
+		        public PreparedStatement createPreparedStatement(Connection con)  
+		            throws SQLException {  
+		        PreparedStatement ps = con.prepareStatement(Constants.INSERT,  
+		            new String[] { "id" });  
+		        ps.setString(1, name);  
+		        ps.setString(2, info);  
+		        return ps;  
+		        }  
+		    }, keyHolder); 
+		 
+		if (out > 0) 
+			 return  keyHolder.getKey().intValue();
+		return Constants.INSERT_FAILED;
 	}
 
-	public Lead getById(int id) {
-		String query = "select id, name, info from leads where id = ?";
-		Lead lead = getJdbcTemplate().queryForObject(query, new Object[] { id }, new RowMapper<Lead>() {
-			public Lead mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Lead get(int id) {
+		
+		Lead lead = getJdbcTemplate().queryForObject(Constants.GETBYID, new Object[] { id },
+		new RowMapper<Lead>() {
+		public Lead mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Lead lead = new Lead();
 				lead.setId(rs.getInt("id"));
 				lead.setName(rs.getString("name"));
 				lead.setInfo(rs.getString("info"));
-				return lead;
-			}
-		});
+				return lead;}});
 		return lead;
-	}
-	public void update(int id, String name, String info) throws IOException {
-		String query = "update leads set name=?, info=? where id=?";
-		Lead lead = new Lead();
-		lead.setId(id);
-		lead.setName(name);
-		lead.setInfo(info);
-		Object[] args = new Object[] { lead.getName(), lead.getInfo(), lead.getId() };
-		int out = getJdbcTemplate().update(query, args);
-		if (out != 0) {
-			System.out.println("Lead updated with id=" + lead.getId());
-		} else
-			System.out.println("No lead found with id=" + lead.getId());
-	}
-	public void deleteById(int id) {
-		String query = "delete from leads where id=?";
-		int out = getJdbcTemplate().update(query, id);
-		if (out != 0) {
-			System.out.println("Lead deleted with id=" + id);
-		} else
-			System.out.println("No lead found with id=" + id);
+		}
+	
+	public int update(int id, String name, String info) throws LeadNotFoundException {
+	
+		Object[] args = new Object[] { name, info, id };
+		int out = getJdbcTemplate().update(Constants.UPDATE, args);
+		if (out > 0) 
+			return id;
+		 else
+			 throw new LeadNotFoundException("There is no lead with id="+id);
+		}
+	
+	public void delete (int id) throws LeadNotFoundException {
+		
+		int out = getJdbcTemplate().update(Constants.DELETE, id);
+		if (out<0) 
+			throw new LeadNotFoundException("Lead with id="+id +"wasn't deleted");		
 	}
 	public List<Lead> getAll() {
-		String query = "select id, name, info from leads";
+		
 		List<Lead> leadList = new ArrayList<Lead>();
-		List<Map<String, Object>> leadRows = getJdbcTemplate().queryForList(query);
+		List<Map<String, Object>> leadRows = getJdbcTemplate().queryForList(Constants.GETALL);
 		for (Map<String, Object> leadRow : leadRows) {
 			Lead lead = new Lead();
 			lead.setId(Integer.parseInt(String.valueOf(leadRow.get("id"))));

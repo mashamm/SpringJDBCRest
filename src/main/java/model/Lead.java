@@ -1,11 +1,11 @@
-package model;
+	package model;
 
-
-
-public class Lead {
+	public class Lead {
+		
 	private int id;
 	private String name;
 	private String info;
+	
 	public int getId() {
 		return id;
 	}
@@ -27,7 +27,7 @@ public class Lead {
 	
 	@Override
 	public String toString(){
-		return "Lead name="+ name+" info= "+info+" id ="+id;
+		return String.format("[%d - %s - %s ]",id, name, info);
 		
 	}
 	
