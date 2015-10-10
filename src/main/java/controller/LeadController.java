@@ -2,6 +2,7 @@ package controller;
 
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dao.LeadDAO;
 import model.Lead;
+import model.LeadNotFoundException;
 
 @RestController
 
@@ -23,16 +25,16 @@ import model.Lead;
 public class LeadController {
 	@Autowired
 	private LeadDAO leadService;
-	@RequestMapping(value="/getById", method = RequestMethod.GET)
+	@RequestMapping(value="/get", method = RequestMethod.GET)
 	
 	public  @ResponseBody
-	 Lead getByIdInJSON(@PathVariable int id) {
-		Lead lead = leadService.getById(id);
+	 Lead getInJSON(@PathVariable int id) {
+		Lead lead = leadService.get(id);
 		return lead;
 	}
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public @ResponseBody
-	void setHistoryEvent(
+	int create(
 			@RequestParam(value = "id", required = false) int id,
 			@RequestParam(value = "name") String name,
 			@RequestParam(value = "info", required = false) String info,
@@ -40,10 +42,21 @@ public class LeadController {
 			HttpServletRequest request, HttpServletResponse httpResponse)
 			throws IOException {
 
-		return leadService.save(name, info);
-
+		return leadService.create(name, info);
 	}
-	
+	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
+	public @ResponseBody
+		void delete(@RequestParam(value="id")int id,
+				HttpServletRequest request, HttpServletResponse httpResponse) throws LeadNotFoundException{
+				leadService.delete(id);
+		return;
+	}
+	@RequestMapping(value="/getAll",method=RequestMethod.GET)
+	public @ResponseBody
+	List<Lead> getAll(HttpServletRequest request, HttpServletResponse httpResponse){
+		return leadService.getAll();
+	}
+	//TODO process bad requests 
 		 
 	
 	
