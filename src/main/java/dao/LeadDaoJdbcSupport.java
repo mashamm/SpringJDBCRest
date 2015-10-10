@@ -1,6 +1,5 @@
 package dao;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -20,6 +20,7 @@ import model.Lead;
 import model.LeadNotFoundException;
 
 @Component
+@ConditionalOnClass
 public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 
 	public int create(final String name,final String info) {

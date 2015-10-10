@@ -31,7 +31,7 @@ public class TestJdbctemplate {
 		}
        
         try {
-			leadDAO.delete(11);
+			leadDAO.delete(-1);
 		} catch (LeadNotFoundException e) {
 			
 			e.printStackTrace();
