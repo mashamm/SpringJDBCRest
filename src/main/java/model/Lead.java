@@ -1,9 +1,16 @@
 	package model;
 
-	public class Lead {
-		
-	private int id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+public class Lead {
+
+	@NotNull
+	@Min(1)
+	private Integer id;
+	@NotNull
 	private String name;
+	
 	private String info;
 	
 	public int getId() {

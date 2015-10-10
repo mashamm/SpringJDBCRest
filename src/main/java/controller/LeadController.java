@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,7 @@ public class LeadController {
 	@RequestMapping(value="/get", method = RequestMethod.GET)
 	
 	public  @ResponseBody
-	 Lead getInJSON(@PathVariable int id) {
+	 Lead get(@Valid @PathVariable int id) {
 		Lead lead = leadService.get(id);
 		return lead;
 	}
@@ -44,6 +45,20 @@ public class LeadController {
 
 		return leadService.create(name, info);
 	}
+	@RequestMapping(value="/update",method=RequestMethod.PUT)
+	public @ResponseBody
+	int update(@RequestParam(value="id")int id,
+			   @RequestParam(value="name",required=false)String name,
+			   @RequestParam(value="info",required=false)String info,
+			   HttpServletRequest request, HttpServletResponse httpResponse){
+		try {
+			 leadService.update(id, name, info);
+		} catch (LeadNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+		return id;
+	}	
 	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
 	public @ResponseBody
 		void delete(@RequestParam(value="id")int id,
