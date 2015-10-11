@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 public class Lead {
 
 	
-	private Integer id;
+	private int id;
 	@NotNull
 	@Size(min=3,max=10)
 	private String name;
@@ -37,5 +37,23 @@ public class Lead {
 		return String.format("[%d - %s - %s ]",id, name, info);
 		
 	}
+	 @Override
+	    public boolean equals(Object o) {
+		 if(o == null)                return false;
+		    if(!(o instanceof Lead)) return false;
+
+		    Lead other = (Lead) o;
+		    if(this.id != other.id)      return false;
+		    if(! this.name.equals(other.name)) return false;
+		    if(! this.info.equals(other.info))   return false;
+		    return true;
+		  }
+	 @Override
+	 	public int hashCode(){
+		 	return (int) id*name.hashCode()*info.hashCode();
+		 
+	 }
+	         
+	    }
 	
-}
+
