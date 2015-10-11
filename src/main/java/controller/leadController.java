@@ -15,22 +15,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import dao.LeadDAO;
-import model.Lead;
+import dao.InsertException;
+import dao.leadDao;
+import model.lead;
 import model.LeadNotFoundException;
 
 @RestController
 
 @RequestMapping("/")
-public class LeadController {
+public class leadController {
 	@Autowired
-	private LeadDAO leadService;
+	private leadDao leadService;
 
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
-	public @ResponseBody Lead get(
+	public @ResponseBody lead get(
 		   @RequestParam(value="id") int id) {
 		
-		Lead lead = leadService.get(id);
+		lead lead = leadService.get(id);
 		return lead;
 	}
 
@@ -40,10 +41,18 @@ public class LeadController {
 			@RequestParam(value = "name") String name, 
 			@RequestParam(value = "info", required = false) String info,
 			HttpServletRequest request, 
-			HttpServletResponse httpResponse) throws IOException {
-
-		return leadService.create(name, info);
-	}
+			HttpServletResponse httpResponse)  {
+		
+			int leadId=-1;
+			try {
+				leadId = leadService.create(name, info);
+			} catch (InsertException e) {
+				httpResponse.setStatus(403);
+				httpResponse.setHeader("reason", "Insertion error");
+				// e.printStackTrace();
+			}
+			return leadId;
+		}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public  @ResponseBody int update(@RequestParam(value = "id") int id,
@@ -70,7 +79,7 @@ public class LeadController {
 	}
 
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public @ResponseBody List<Lead> getAll(
+	public @ResponseBody List<lead> getAll(
 		    HttpServletRequest request, 
 		    HttpServletResponse httpResponse) {
 		return leadService.getAll();
