@@ -3,7 +3,7 @@
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Lead {
+public class lead {
 
 	
 	private int id;
@@ -42,7 +42,7 @@ public class Lead {
 		 if(o == null)                return false;
 		    if(!(o instanceof Lead)) return false;
 
-		    Lead other = (Lead) o;
+		    lead other = (lead) o;
 		    if(this.id != other.id)      return false;
 		    if(! this.name.equals(other.name)) return false;
 		    if(! this.info.equals(other.info))   return false;

@@ -16,12 +16,12 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import model.Lead;
+import model.lead;
 import model.LeadNotFoundException;
 
 @Component
 @Repository
-public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
+public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 	
 	public static final String INSERT="insert into leads (name, info) values (?,?)";
 	public static final String UPDATE="update leads set name=?, info=? where id=?";
@@ -51,11 +51,11 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 	}
 
 	
-	public Lead get(int id) {
-		Lead lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id },
-		new RowMapper<Lead>() {
-		public Lead mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Lead lead = new Lead();
+	public lead get(int id) {
+		lead lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id },
+		new RowMapper<lead>() {
+		public lead mapRow(ResultSet rs, int rowNum) throws SQLException {
+				lead lead = new lead();
 				lead.setId(rs.getInt("id"));
 				lead.setName(rs.getString("name"));
 				lead.setInfo(rs.getString("info"));
@@ -81,11 +81,11 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements LeadDAO {
 	}
 	
 	
-	public List<Lead> getAll() {
-		List<Lead> leadList = new ArrayList<Lead>();
+	public List<lead> getAll() {
+		List<lead> leadList = new ArrayList<lead>();
 		List<Map<String, Object>> leadRows = getJdbcTemplate().queryForList(GETALL);
 		for (Map<String, Object> leadRow : leadRows) {
-			Lead lead = new Lead();
+			lead lead = new lead();
 			lead.setId(Integer.parseInt(String.valueOf(leadRow.get("id"))));
 			lead.setName(String.valueOf(leadRow.get("name")));
 			lead.setInfo(String.valueOf(leadRow.get("info")));
