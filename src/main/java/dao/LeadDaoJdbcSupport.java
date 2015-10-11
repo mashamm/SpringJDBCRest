@@ -29,6 +29,7 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 	public static final String DELETE="delete from leads where id=?";
 	public static final String GETALL="select id, name, info from leads";
 	
+	
 	public int create(final String name,final String info) throws InsertException {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();

@@ -19,26 +19,35 @@ import dao.InsertException;
 import dao.leadDao;
 import model.lead;
 import model.LeadNotFoundException;
-
+/*
+ *        
+ *  leads/                  GET      getAll()
+ * 	leads/{id}              GET      get()
+ * 	leads/create/{name}     POST     create()
+ * 	leads/update/{id}       PUT  	 update()
+ * 	leads/delete/{id}      DELETE	 delete()
+ * 	
+ * */
 @RestController
 
-@RequestMapping("/")
+@RequestMapping("/leads")
 public class leadController {
 	@Autowired
 	private leadDao leadService;
-
-	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody lead get(
-		   @RequestParam(value="id") int id) {
+		   @PathVariable int id) {
 		
 		lead lead = leadService.get(id);
 		return lead;
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/create/{name}", method = RequestMethod.POST)
 	public 	@ResponseBody int create(
 			@RequestParam(value = "id", required = false) int id,
-			@RequestParam(value = "name") String name, 
+			@PathVariable(value = "name") String name, 
 			@RequestParam(value = "info", required = false) String info,
 			HttpServletRequest request, 
 			HttpServletResponse httpResponse)  {
@@ -54,8 +63,8 @@ public class leadController {
 			return leadId;
 		}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public  @ResponseBody int update(@RequestParam(value = "id") int id,
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public  @ResponseBody int update(@PathVariable int id,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "info", required = false) String info, HttpServletRequest request,
 			HttpServletResponse httpResponse) {
@@ -69,16 +78,16 @@ public class leadController {
 		return id;
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public 	@ResponseBody void delete(
-			@RequestParam(value = "id") int id, 
+			@PathVariable int id, 
 			HttpServletRequest request,
 			HttpServletResponse httpResponse) throws LeadNotFoundException {
 		leadService.delete(id);
 		return;
 	}
 
-	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public @ResponseBody List<lead> getAll(
 		    HttpServletRequest request, 
 		    HttpServletResponse httpResponse) {
