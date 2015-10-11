@@ -8,7 +8,7 @@ import model.LeadNotFoundException;
 
 public interface LeadDAO {
 	
-	    public int create(final String name,final String info);
+	    public int create(final String name,final String info) throws InsertException;
 	   
 	    public Lead get(int id);
 	    

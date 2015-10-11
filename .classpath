@@ -28,5 +28,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="/SpringRestJdbc"/>
+	<classpathentry kind="lib" path="/home/masha/Downloads/commons-logging-1.2/commons-logging-1.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
