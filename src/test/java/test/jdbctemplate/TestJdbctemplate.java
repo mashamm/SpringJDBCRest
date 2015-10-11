@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import dao.LeadDAO;
+import dao.leadDao;
+import dao.InsertException;
 import dao.LeadDaoJdbcSupport;
-import model.Lead;
+import model.lead;
 import model.LeadNotFoundException;
 
 
@@ -17,26 +18,28 @@ public class TestJdbctemplate {
 		
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
          
-        LeadDAO leadDAO = ctx.getBean("LeadDAO",LeadDaoJdbcSupport.class);
+        leadDao leadDao = ctx.getBean("leadDao",LeadDaoJdbcSupport.class);
 
-        leadDAO.create("Den3","info");
-        Lead lead1 = leadDAO.get(8);
+        try {
+			leadDao.create("Den3","info");
+		} catch (InsertException e1) {
+			e1.printStackTrace();
+		}
+        lead lead1 = leadDao.get(8);
         System.out.println("Lead Retrieved::"+lead1);
         try {
-			leadDAO.update(12,"Victoria","Manager2");
+			leadDao.update(12,"Victoria","Manager2");
 			
 		} catch (LeadNotFoundException  e) {
-			System.out.println("from update");
 			 e.printStackTrace();
 		}
        
         try {
-			leadDAO.delete(-1);
+			leadDao.delete(-1);
 		} catch (LeadNotFoundException e) {
-			
 			e.printStackTrace();
 		}
-        List<Lead> leadList = leadDAO.getAll();
+        List<lead> leadList = leadDao.getAll();
         System.out.println(leadList);
         ctx.close();
          
