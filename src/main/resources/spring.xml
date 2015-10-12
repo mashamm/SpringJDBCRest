@@ -15,7 +15,6 @@
         <property name="username" value="postgres"/>
         <property name="password" value="pass"/>
 	</bean>
-    
 	<bean id="leadDao" class="dao.LeadDaoJdbcSupport">
 		<property name="dataSource" ref="dataSource" />
 	</bean>

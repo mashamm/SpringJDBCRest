@@ -1,4 +1,4 @@
-	package model;
+package model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,7 +40,7 @@ public class lead {
 	 @Override
 	    public boolean equals(Object o) {
 		 if(o == null)                return false;
-		    if(!(o instanceof Lead)) return false;
+		    if(!(o instanceof lead)) return false;
 
 		    lead other = (lead) o;
 		    if(this.id != other.id)      return false;

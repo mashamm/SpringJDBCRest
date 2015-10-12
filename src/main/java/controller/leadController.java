@@ -35,7 +35,6 @@ public class leadController {
 	@Autowired
 	private leadDao leadService;
 	
-	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody lead get(
 		   @PathVariable int id) {

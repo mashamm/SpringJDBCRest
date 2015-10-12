@@ -21,7 +21,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- Test -->
 		<junit.version>4.11</junit.version>
 
-
+    <start-class>SpringJDBCRest.config.Application</start-class>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	 <parent>
         <groupId>org.springframework.boot</groupId>
@@ -82,18 +83,23 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		</dependency>
     </dependencies>
     <build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.maventest.App</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
+<repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
