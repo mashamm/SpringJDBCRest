@@ -14,7 +14,7 @@ import model.LeadNotFoundException;
 
 public class TestJdbctemplate {
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
          
@@ -45,6 +45,6 @@ public class TestJdbctemplate {
          
         System.out.println("DONE");
 
-	}
+	}*/
 
 }

@@ -37,23 +37,23 @@ public class leadController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody lead get(
-		   @PathVariable int id) {
+		   @PathVariable Long id) {
 		
 		lead lead = leadService.get(id);
 		return lead;
 	}
 
 	@RequestMapping(value = "/create/{name}", method = RequestMethod.POST)
-	public 	@ResponseBody int create(
-			@RequestParam(value = "id", required = false) int id,
+	public 	@ResponseBody Long create(
+			@RequestParam(value = "id", required = false) Long id,
 			@PathVariable(value = "name") String name, 
 			@RequestParam(value = "info", required = false) String info,
 			HttpServletRequest request, 
 			HttpServletResponse httpResponse)  {
 		
-			int leadId=-1;
+			Long leadId=-1l;
 			try {
-				leadId = leadService.create(name, info);
+				leadId = (long) leadService.create(name, info);
 			} catch (InsertException e) {
 				httpResponse.setStatus(403);
 				httpResponse.setHeader("reason", "Insertion error");
@@ -63,7 +63,7 @@ public class leadController {
 		}
 
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public  @ResponseBody int update(@PathVariable int id,
+	public  @ResponseBody Long update(@PathVariable Long id,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "info", required = false) String info, HttpServletRequest request,
 			HttpServletResponse httpResponse) {
@@ -79,14 +79,17 @@ public class leadController {
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public 	@ResponseBody void delete(
-			@PathVariable int id, 
+			@PathVariable Long id, 
 			HttpServletRequest request,
 			HttpServletResponse httpResponse) throws LeadNotFoundException {
-		leadService.delete(id);
+		if (id!=null)
+		{
+		leadService.delete(id);}
+		else throw new LeadNotFoundException("Not valid id");
 		return;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public @ResponseBody List<lead> getAll(
 		    HttpServletRequest request, 
 		    HttpServletResponse httpResponse) {

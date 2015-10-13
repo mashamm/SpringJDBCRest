@@ -42,7 +42,7 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 	}
 
 	
-	public int create(final String name,final String info) throws InsertException {
+	public Long create(final String name,final String info) throws InsertException {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
@@ -58,18 +58,18 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		    }, keyHolder); 
 		 
 		if (out > 0) 
-			 return  keyHolder.getKey().intValue();
+			 return  keyHolder.getKey().longValue();
 		else{
 		throw new InsertException();}
 	}
 
 	
-	public lead get(int id) {
+	public lead get(Long id) {
 		lead lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id },
 		new RowMapper<lead>() {
 		public lead mapRow(ResultSet rs, int rowNum) throws SQLException {
 				lead lead = new lead();
-				lead.setId(rs.getInt("id"));
+				lead.setId(rs.getLong("id"));
 				lead.setName(rs.getString("name"));
 				lead.setInfo(rs.getString("info"));
 				return lead;}});
@@ -77,7 +77,7 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		}
 	
 	
-	public int update(int id, String name, String info) throws LeadNotFoundException {
+	public Long update(Long id, String name, String info) throws LeadNotFoundException {
 		Object[] args = new Object[] { name, info, id };
 		int out = getJdbcTemplate().update(UPDATE, args);
 		if (out > 0) 
@@ -87,10 +87,12 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		}
 	
 	
-	public void delete (int id) throws LeadNotFoundException {
+	public Long delete (Long id) throws LeadNotFoundException {
+		if(id!=null){
 		int out = getJdbcTemplate().update(DELETE, id);
 		if (out<0) 
-			throw new LeadNotFoundException("Lead with id="+id +"wasn't deleted");		
+			throw new LeadNotFoundException("Lead with id="+id +"wasn't deleted");}
+		return id;		
 	}
 	
 	
@@ -99,12 +101,17 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		List<Map<String, Object>> leadRows = getJdbcTemplate().queryForList(GETALL);
 		for (Map<String, Object> leadRow : leadRows) {
 			lead lead = new lead();
-			lead.setId(Integer.parseInt(String.valueOf(leadRow.get("id"))));
+			lead.setId(Long.parseLong(String.valueOf(leadRow.get("id"))));
 			lead.setName(String.valueOf(leadRow.get("name")));
 			lead.setInfo(String.valueOf(leadRow.get("info")));
 			leadList.add(lead);
 		}
 		return leadList;
 	}
+
+
+
+
+
 
 }

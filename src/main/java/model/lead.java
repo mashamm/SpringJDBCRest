@@ -6,17 +6,17 @@ import javax.validation.constraints.Size;
 public class lead {
 
 	
-	private int id;
+	private Long id;
 	@NotNull
 	@Size(min=3,max=10)
 	private String name;
 	
 	private String info;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -50,7 +50,7 @@ public class lead {
 		  }
 	 @Override
 	 	public int hashCode(){
-		 	return (int) id*name.hashCode()*info.hashCode();
+		 	return  (int) (id.hashCode()*name.hashCode()*info.hashCode());
 		 
 	 }
 	         
