@@ -21,7 +21,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		<!-- Test -->
 		<junit.version>4.11</junit.version>
 
-    <start-class>SpringJDBCRest.config.Application</start-class>
+    <start-class>config.Application</start-class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	 <parent>
