@@ -29,5 +29,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="/SpringRestJdbc"/>
 	<classpathentry kind="lib" path="/home/masha/Downloads/commons-logging-1.2/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/media/windows/java/Home/SpringJDBCRest/target"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

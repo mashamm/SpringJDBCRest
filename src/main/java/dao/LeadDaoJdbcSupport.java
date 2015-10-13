@@ -8,19 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-import model.lead;
 import model.LeadNotFoundException;
+import model.lead;
 
 @Component
-@Repository
+//@Repository
 public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 	
 	public static final String INSERT="insert into leads (name, info) values (?,?)";
@@ -29,6 +32,15 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 	public static final String DELETE="delete from leads where id=?";
 	public static final String GETALL="select id, name, info from leads";
 	
+
+	@Autowired
+	private DataSource dataSource;
+	
+	@PostConstruct
+	private void initialize() {
+	setDataSource(dataSource);
+	}
+
 	
 	public int create(final String name,final String info) throws InsertException {
 		

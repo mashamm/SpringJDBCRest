@@ -1,13 +1,12 @@
 package controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dao.InsertException;
 import dao.leadDao;
-import model.lead;
 import model.LeadNotFoundException;
+import model.lead;
 /*
  *        
  *  leads/                  GET      getAll()
@@ -29,9 +28,10 @@ import model.LeadNotFoundException;
  * 	
  * */
 @RestController
-
+@ComponentScan("dao") 
 @RequestMapping("/leads")
 public class leadController {
+	
 	@Autowired
 	private leadDao leadService;
 	
