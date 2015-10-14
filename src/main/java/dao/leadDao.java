@@ -1,9 +1,8 @@
 package dao;
 
 import java.util.List;
-
-
-import model.LeadNotFoundException;
+import exception.InsertException;
+import exception.LeadNotFoundException;
 import model.lead;
 
 public interface leadDao {

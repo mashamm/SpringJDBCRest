@@ -2,39 +2,61 @@ package controller;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
+@Configuration
 @SpringBootApplication
 //@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 @PropertySource("classpath:application.properties")
 public class Application extends SpringBootServletInitializer {
+//	@Resource
+//	private Environment env;
+	
+	
+		@Bean  
+	    public ResourceBundleMessageSource messageSource() {  
+	        ResourceBundleMessageSource source = new ResourceBundleMessageSource();  
+	        source.setBasename("i18n/messages");  
+	        source.setUseCodeAsDefaultMessage(true);  
+	        return source;  
+	}
+
 	@Override
 	protected SpringApplicationBuilder configure(final SpringApplicationBuilder application){
 		return application.sources(Application.class);
 		
 	}
-	
-	/*
-	@Bean
-	public ServletRegistrationBean dispatcherServletRegistration() {
+	 @Bean
+	    public RequestMappingHandlerAdapter  annotationMethodHandlerAdapter()
+	    {
+	        final RequestMappingHandlerAdapter annotationMethodHandlerAdapter = new RequestMappingHandlerAdapter();
+	        final MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter = new MappingJackson2HttpMessageConverter();
 
-	    ServletRegistrationBean registration = new ServletRegistrationBean(
-	            dispatcherServlet(), "/leads");
+	        List<HttpMessageConverter<?>> httpMessageConverter = new ArrayList<HttpMessageConverter<?>>();
+	        httpMessageConverter.add(mappingJacksonHttpMessageConverter);
 
-	    registration
-	            .setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
+	        String[] supportedHttpMethods = { "POST", "GET", "PUT","DELETE" };
 
-	    return registration;
-	}*/
+	        annotationMethodHandlerAdapter.setMessageConverters(httpMessageConverter);
+	        annotationMethodHandlerAdapter.setSupportedMethods(supportedHttpMethods);
+
+	        return annotationMethodHandlerAdapter;
+	    }
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-}
+	}

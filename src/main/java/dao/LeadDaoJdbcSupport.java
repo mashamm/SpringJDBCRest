@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -19,7 +19,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import model.LeadNotFoundException;
+import exception.InsertException;
+import exception.LeadNotFoundException;
 import model.lead;
 
 @Component
@@ -41,11 +42,9 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 	setDataSource(dataSource);
 	}
 
-	
 	public Long create(final String name,final String info) throws InsertException {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		
 		 int out=getJdbcTemplate().update(new PreparedStatementCreator() {  
 		        public PreparedStatement createPreparedStatement(Connection con)  
 		            throws SQLException {  
@@ -65,15 +64,20 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 
 	
 	public lead get(Long id) {
-		lead lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id },
-		new RowMapper<lead>() {
-		public lead mapRow(ResultSet rs, int rowNum) throws SQLException {
+		lead lead=null;
+		if(id instanceof Long){
+			lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id },
+			new RowMapper<lead>() {
+				public lead mapRow(ResultSet rs, int rowNum) throws SQLException {
 				lead lead = new lead();
 				lead.setId(rs.getLong("id"));
 				lead.setName(rs.getString("name"));
 				lead.setInfo(rs.getString("info"));
-				return lead;}});
-		return lead;
+				return lead;
+			}});
+		 if(lead!=null)
+		 return lead;}
+		throw new LeadNotFoundException(id);
 		}
 	
 	
@@ -83,7 +87,7 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		if (out > 0) 
 			return id;
 		 else
-			 throw new LeadNotFoundException("There is no lead with id="+id);
+			 throw new LeadNotFoundException(id);
 		}
 	
 	
@@ -91,7 +95,7 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		if(id!=null){
 		int out = getJdbcTemplate().update(DELETE, id);
 		if (out<0) 
-			throw new LeadNotFoundException("Lead with id="+id +"wasn't deleted");}
+			throw new LeadNotFoundException(id);}
 		return id;		
 	}
 	
