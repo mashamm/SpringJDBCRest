@@ -1,0 +1,5 @@
+error.bad.lead.id = Lead can't have id: 
+error.no.lead.id = There is no Lead with id: 
+error.bad.arguments = Bad arguments.
+Length.id.namer = Length of Lead name  should be from 1 to 20 characters.
+Length.lead.info = Length of a Lead info  should be from 0 to 20 characters.
