@@ -1,11 +1,13 @@
 package model;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class lead {
 
-	
+	@NotNull
+	@Min(1)
 	private Long id;
 	@NotNull
 	@Size(min=3,max=10)
