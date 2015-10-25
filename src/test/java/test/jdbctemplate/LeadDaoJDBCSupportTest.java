@@ -40,9 +40,8 @@ public class LeadDaoJDBCSupportTest {
 			 test2.setInfo("infoTest2");
 			 test2.setName("Test2");
 			
-			
 			 assertEquals(test,testDao.get(id));
-			assertEquals(test2,testDao.get(id2));
+			 assertEquals(test2,testDao.get(id2));
 	
 			 testDao.update(id, "testTest", "Infoinfo");
 			 testDao.update(id2, "twoTest","2Info");
@@ -53,30 +52,27 @@ public class LeadDaoJDBCSupportTest {
 			 assertEquals("twoTest",testDao.get(id2).getName());
 			 assertEquals("2Info",testDao.get(id2).getInfo());
 			    
-//			 testDao.delete(id);
-//			 testDao.delete(id2);
-//
-//			  assertNull(testDao.get(id));
-//			 assertNull(testDao.get(id2));
 			} catch (InsertException e) {
 				e.printStackTrace();}
-			 
-			
-			
-	 
-}
+    }
 		@Test(expected=LeadNotFoundException.class)
 		public void deleteLeadTest() {
 			try {
 				long  id = testDao.create("Testdelete", "infoTest");
-				   
 				 testDao.delete(id);
 				 testDao.get(id);
-				
 			} catch (InsertException e) {
-				
+				e.printStackTrace();
+			}			
+		}
+		@Test(expected=LeadNotFoundException.class)
+		public void updateTest(){
+			try {
+				long  id = testDao.create("Testupdate", "infoTest");
+				 testDao.delete(id);
+				 testDao.update(id,"T","t");
+			} catch (InsertException e) {
 				e.printStackTrace();
 			}
-			
-			
-		}}
+		}
+}

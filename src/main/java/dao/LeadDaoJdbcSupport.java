@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -61,27 +62,26 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		else{
 		throw new InsertException();}
 	}
-
-	
 	public lead get(Long id) {
-		lead lead=null;
-		if(id instanceof Long){
-			lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id },
-			new RowMapper<lead>() {
-				public lead mapRow(ResultSet rs, int rowNum) throws SQLException {
-				lead lead = new lead();
-				lead.setId(rs.getLong("id"));
-				lead.setName(rs.getString("name"));
-				lead.setInfo(rs.getString("info"));
-				return lead;
-			}});
-		 if(lead!=null)
-		 return lead;}
-		throw new LeadNotFoundException(id);
+		lead lead = null;
+		if (id instanceof Long) {
+			try {
+				lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id }, new RowMapper<lead>() {
+					public lead mapRow(ResultSet rs, int rowNum) throws SQLException {
+						lead lead = new lead();
+						lead.setId(rs.getLong("id"));
+						lead.setName(rs.getString("name"));
+						lead.setInfo(rs.getString("info"));
+						return lead;
+					}
+				});
+			} catch (EmptyResultDataAccessException ex) {
+				throw new LeadNotFoundException(id);
+			}
 		}
-	
-	
-	public Long update(Long id, String name, String info) throws LeadNotFoundException {
+		return lead;
+		}
+	public Long update(Long id, String name, String info)  {
 		Object[] args = new Object[] { name, info, id };
 		int out = getJdbcTemplate().update(UPDATE, args);
 		if (out > 0) 
@@ -89,7 +89,6 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		 else
 			 throw new LeadNotFoundException(id);
 		}
-	
 	
 	public Long delete (Long id) throws LeadNotFoundException {
 		if(id!=null){
