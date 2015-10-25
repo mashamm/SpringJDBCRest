@@ -6,10 +6,9 @@ import java.util.List;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import dao.leadDao;
-import dao.InsertException;
+
 import dao.LeadDaoJdbcSupport;
 import model.lead;
-import model.LeadNotFoundException;
 
 
 public class TestJdbctemplate {
