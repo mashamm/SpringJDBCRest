@@ -43,9 +43,9 @@ import model.lead;
 	    assertNotNull("not empty",leads.size());
 	    
 	     //get by id
-	    lead leadid = restTemplate.getForObject(BASE_URL+"/{id}", lead.class,output.getId());  
-	    assertNotNull("no lead",leadid);  
-	    assertNotNull(leadid.getId());  
+	   // lead leadid = restTemplate.getForObject(BASE_URL+"/{id}", lead.class,output.getId());  
+	 //   assertNotNull("no lead",leadid);  
+	  //  assertNotNull(leadid.getId());  
 	    
 	    
 	    

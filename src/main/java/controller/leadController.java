@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
+
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -51,6 +53,8 @@ import model.lead;
 				RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.POST})
 public class leadController {
 	
+	 private Logger logger = Logger.getLogger(leadController.class);
+	
 	@Autowired
 	private leadDao leadService;
 	@Autowired
@@ -61,6 +65,7 @@ public class leadController {
 			 @Valid @RequestBody @PathVariable Long id) {
 		
 		lead lead = leadService.get(id);
+		
 		return new  ResponseEntity<lead>(lead, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/create/{name}", method = {RequestMethod.POST})
@@ -84,8 +89,8 @@ public class leadController {
 	
 	@RequestMapping(value = "/{id}/update", method = {RequestMethod.PUT})
 	public  @ResponseBody Long update(  @Valid @RequestBody @PathVariable Long id,
-			@PathVariable@RequestParam(value = "name", required = false) String name,
-			@PathVariable@RequestParam(value = "info", required = false) String info, 
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "info") String info, 
 			HttpServletRequest request,
 			HttpServletResponse httpResponse) {
 		try {
@@ -127,8 +132,9 @@ public class leadController {
     public ErrorInfo handleTypeMismatchException(HttpServletRequest req, TypeMismatchException ex) {
     	Locale locale = LocaleContextHolder.getLocale();
         String errorMessage = message.getMessage("error.bad.lead.id", null, locale);
-         errorMessage += ex.getValue();
+         errorMessage +=" "+ ex.getValue();
         String errorURL = req.getRequestURL().toString();
+        logger.error("Error "+ errorURL+ " "+errorMessage);
         return new ErrorInfo(errorURL, errorMessage);
 
     }

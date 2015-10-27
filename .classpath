@@ -28,8 +28,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="/SpringRestJdbc"/>
-	<classpathentry kind="lib" path="/home/masha/Downloads/commons-logging-1.2/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="/media/windows/java/Home/SpringJDBCRest/target"/>
+	<classpathentry exported="true" kind="src" path="/SpringRestJdbc"/>
+	<classpathentry exported="true" kind="lib" path="/home/masha/Downloads/commons-logging-1.2/commons-logging-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/media/windows/java/Home/SpringJDBCRest/target"/>
+	<classpathentry kind="lib" path="/home/masha/Downloads/spring-framework-4.1.6.RELEASE/libs/spring-test-4.1.6.RELEASE-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

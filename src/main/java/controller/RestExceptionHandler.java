@@ -23,22 +23,14 @@ import exception.ErrorParamInfo;
 import exception.ErrorRequestParams;
 import exception.LeadNotFoundException;
 
+//exception handling on @Controller level advice
+
 @ControllerAdvice
 public class RestExceptionHandler {
 	@Autowired
 	private MessageSource errorSource;
 	
-	@ExceptionHandler(LeadNotFoundException.class)
-	@ResponseStatus(value=HttpStatus.NOT_FOUND)
-	@ResponseBody
-	public ErrorInfo leadNotFound(HttpServletRequest req, LeadNotFoundException ex) {		
-		String errorMessage = localizeErrorMessage("error.no.lead.id");
-		
-		errorMessage += ex.getLeadId();
-		String errorURL = req.getRequestURL().toString();
-		
-		return new ErrorInfo(errorURL, errorMessage);
-	} 
+	
 	
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
