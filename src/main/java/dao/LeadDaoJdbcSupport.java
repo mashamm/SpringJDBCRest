@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import exception.InsertException;
 import exception.LeadNotFoundException;
-import model.lead;
+import model.Lead;
 
 @Component
 //@Repository
@@ -62,13 +62,13 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		else{
 		throw new InsertException();}
 	}
-	public lead get(Long id) {
-		lead lead = null;
+	public Lead get(Long id) {
+		Lead lead = null;
 		if (id instanceof Long) {
 			try {
-				lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id }, new RowMapper<lead>() {
-					public lead mapRow(ResultSet rs, int rowNum) throws SQLException {
-						lead lead = new lead();
+				lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id }, new RowMapper<Lead>() {
+					public Lead mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Lead lead = new Lead();
 						lead.setId(rs.getLong("id"));
 						lead.setName(rs.getString("name"));
 						lead.setInfo(rs.getString("info"));
@@ -92,18 +92,18 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 	
 	public Long delete (Long id) throws LeadNotFoundException {
 		if(id!=null){
-		int out = getJdbcTemplate().update(DELETE, id);
+		long out = getJdbcTemplate().update(DELETE, id);
 		if (out<0) 
 			throw new LeadNotFoundException(id);}
 		return id;		
 	}
 	
 	
-	public List<lead> getAll() {
-		List<lead> leadList = new ArrayList<lead>();
+	public List<Lead> getAll() {
+		List<Lead> leadList = new ArrayList<Lead>();
 		List<Map<String, Object>> leadRows = getJdbcTemplate().queryForList(GETALL);
 		for (Map<String, Object> leadRow : leadRows) {
-			lead lead = new lead();
+			Lead lead = new Lead();
 			lead.setId(Long.parseLong(String.valueOf(leadRow.get("id"))));
 			lead.setName(String.valueOf(leadRow.get("name")));
 			lead.setInfo(String.valueOf(leadRow.get("info")));

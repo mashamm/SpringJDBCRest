@@ -4,7 +4,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class lead {
+public class Lead {
 
 	@NotNull
 	@Min(1)
@@ -42,9 +42,9 @@ public class lead {
 	 @Override
 	    public boolean equals(Object o) {
 		 if(o == null)                return false;
-		    if(!(o instanceof lead)) return false;
+		    if(!(o instanceof Lead)) return false;
 
-		    lead other = (lead) o;
+		    Lead other = (Lead) o;
 		    if(this.id != other.id)      return false;
 		    if(! this.name.equals(other.name)) return false;
 		    if(! this.info.equals(other.info))   return false;

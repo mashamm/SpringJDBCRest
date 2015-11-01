@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ResultMessage implements Serializable {
 
-    private static final long serialVersionUID = -1200531096759544234L;
+    //private static final long serialVersionUID = -1200531096759544234L;
 
     private String code;
     private String message;

@@ -19,13 +19,10 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 @Configuration
 @SpringBootApplication
-//@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+
+
 @PropertySource("classpath:application.properties")
 public class Application extends SpringBootServletInitializer {
-//	@Resource
-//	private Environment env;
-	
-	
 		@Bean  
 	    public ResourceBundleMessageSource messageSource() {  
 	        ResourceBundleMessageSource source = new ResourceBundleMessageSource();  
@@ -33,7 +30,6 @@ public class Application extends SpringBootServletInitializer {
 	        source.setUseCodeAsDefaultMessage(true);  
 	        return source;  
 	}
-
 	@Override
 	protected SpringApplicationBuilder configure(final SpringApplicationBuilder application){
 		return application.sources(Application.class);

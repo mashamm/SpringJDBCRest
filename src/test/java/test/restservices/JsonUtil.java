@@ -1,6 +1,7 @@
 package test.restservices;
 
 import java.io.IOException;
+import test.restservices.ResultMessage;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
@@ -13,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public final class JsonUtil {
+public  class JsonUtil {
 
 	public static <lead> lead readObject(String jsonData, Class<lead> clazz) {
 		lead res = null;

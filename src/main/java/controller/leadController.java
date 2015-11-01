@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
-
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -37,7 +37,7 @@ import exception.ErrorParamInfo;
 import exception.ErrorRequestParams;
 import exception.InsertException;
 import exception.LeadNotFoundException;
-import model.lead;
+import model.Lead;
 /*
  *        
  *  leads/                  GET      getAll()
@@ -53,7 +53,7 @@ import model.lead;
 				RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.POST})
 public class leadController {
 	
-	 private Logger logger = Logger.getLogger(leadController.class);
+	//private Logger logger = Logger.getLogger(leadController.class);
 	
 	@Autowired
 	private leadDao leadService;
@@ -61,12 +61,15 @@ public class leadController {
 	private MessageSource message;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public  ResponseEntity<lead>  get(
-			 @Valid @RequestBody @PathVariable Long id) {
+	public  ResponseEntity<Lead>  get(
+			  @PathVariable Long id, HttpServletRequest request, 
+				HttpServletResponse httpResponse) {
 		
-		lead lead = leadService.get(id);
-		
-		return new  ResponseEntity<lead>(lead, HttpStatus.OK);
+		Lead lead = leadService.get(id);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    httpResponse.setContentType("APPLICATION_JSON");
+		return new  ResponseEntity<Lead>(lead,headers, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/create/{name}", method = {RequestMethod.POST})
 	public 	@ResponseBody Long create( @Valid @RequestBody
@@ -119,7 +122,7 @@ public class leadController {
 	}
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public @ResponseBody List<lead> getAll(
+	public @ResponseBody List<Lead> getAll(
 		    HttpServletRequest request, 
 		    HttpServletResponse httpResponse) {
 		return leadService.getAll();
@@ -134,7 +137,7 @@ public class leadController {
         String errorMessage = message.getMessage("error.bad.lead.id", null, locale);
          errorMessage +=" "+ ex.getValue();
         String errorURL = req.getRequestURL().toString();
-        logger.error("Error "+ errorURL+ " "+errorMessage);
+        //logger.error("Error "+ errorURL+ " "+errorMessage);
         return new ErrorInfo(errorURL, errorMessage);
 
     }

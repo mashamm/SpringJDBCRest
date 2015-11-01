@@ -21,5 +21,6 @@
 	</bean>
 	    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">  
      </bean>  
+     
 	<!--  <context:component-scan base-package="dao" /> -->
 </beans>
