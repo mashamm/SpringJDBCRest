@@ -1,9 +1,8 @@
 package exception;
 
-public class LeadNotFoundException extends RuntimeException {
-	
-	private static final long serialVersionUID = -2859292084648724403L;
-	private final long Id;
+public class LeadNotFoundException extends Exception {
+	private  long Id;
+	private String message;
 	
 	public LeadNotFoundException(long id) {
 		Id = id;
@@ -13,5 +12,14 @@ public class LeadNotFoundException extends RuntimeException {
 		return Id;
 	}
 	
-
+	public LeadNotFoundException(){}
+	
+	public LeadNotFoundException(long id,String message) {
+		this.Id = id;
+		this.message=message;
+		
+	}
+	public String getMessage(){
+		return this.message;
+	}
 }

@@ -62,9 +62,8 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 		else{
 		throw new InsertException();}
 	}
-	public Lead get(Long id) {
+	public Lead get(Long id) throws LeadNotFoundException{
 		Lead lead = null;
-		if (id instanceof Long) {
 			try {
 				lead = getJdbcTemplate().queryForObject(GETBYID, new Object[] { id }, new RowMapper<Lead>() {
 					public Lead mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -78,10 +77,9 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 			} catch (EmptyResultDataAccessException ex) {
 				throw new LeadNotFoundException(id);
 			}
-		}
 		return lead;
 		}
-	public Long update(Long id, String name, String info)  {
+	public Long update(Long id, String name, String info) throws LeadNotFoundException {
 		Object[] args = new Object[] { name, info, id };
 		int out = getJdbcTemplate().update(UPDATE, args);
 		if (out > 0) 
@@ -93,9 +91,11 @@ public class LeadDaoJdbcSupport extends JdbcDaoSupport implements leadDao {
 	public Long delete (Long id) throws LeadNotFoundException {
 		if(id!=null){
 		long out = getJdbcTemplate().update(DELETE, id);
-		if (out<0) 
-			throw new LeadNotFoundException(id);}
-		return id;		
+		if (out<=0) {
+			throw new LeadNotFoundException(id);
+			}
+		else return id;}
+		throw new LeadNotFoundException();	
 	}
 	
 	

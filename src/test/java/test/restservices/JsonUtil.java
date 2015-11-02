@@ -16,8 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public  class JsonUtil {
 
-	public static <lead> lead readObject(String jsonData, Class<lead> clazz) {
-		lead res = null;
+	public static <Lead> Lead readObject(String jsonData, Class<Lead> clazz) {
+		Lead res = null;
 		try {
 			res = new ObjectMapper().readValue(jsonData, clazz);
 		} catch (IOException e) {
@@ -26,8 +26,8 @@ public  class JsonUtil {
 		return res;
 	}
 
-	public static <lead> lead readObject(InputStream is, Class<lead> clazz) {
-		lead res = null;
+	public static <Lead> Lead readObject(InputStream is, Class<Lead> clazz) {
+		Lead res = null;
 		try {
 			res = new ObjectMapper().readValue(is, clazz);
 		} catch (IOException e) {

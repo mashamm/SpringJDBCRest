@@ -9,7 +9,7 @@ public interface leadDao {
 	
 	    public Long create(final String name,final String info) throws InsertException;
 	   
-	    public Lead get(Long id);
+	    public Lead get(Long id) throws LeadNotFoundException;
 	    
 	    public Long update(Long id,String name,String info)throws LeadNotFoundException;
 	   
