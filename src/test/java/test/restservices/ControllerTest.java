@@ -49,13 +49,15 @@ public class ControllerTest {
     @Test
 	    public void getLeadById() throws Exception {
 	        String jsonData = mockMvc
-	        		.perform(get("/leads/{id}",144L)
+	        		.perform(get("/leads/{id}",144L).accept(MediaType.APPLICATION_JSON)
 	        		.contentType(MediaType.APPLICATION_JSON))
 	                .andExpect(status().isOk())
 	                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 	                .andReturn()
 	                .getResponse()
 	                .getContentAsString();
+	        
+	        System.out.println("jsonDAta"+jsonData);
 	        	
 	        Lead lead = JsonUtil.readObject(jsonData, Lead.class);
 	        assertNotNull("Lead can't be a null", lead);
@@ -63,7 +65,7 @@ public class ControllerTest {
 	        assertNotNull("Name can't be empty", lead.getName());
 	        
 	    }
-	@Ignore
+    
 	@Test
 	    public void getAll() throws Exception 
 	    {	 String jsonData = mockMvc

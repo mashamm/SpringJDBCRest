@@ -23,7 +23,7 @@ public class LeadDaoJDBCSupportTest {
 	 
 	@Autowired
 	private leadDao testDao ;
-		@Ignore
+		
 		@Test
 	    public void daoTest() throws LeadNotFoundException {
 			 long id;
@@ -56,7 +56,7 @@ public class LeadDaoJDBCSupportTest {
 			    
 			} catch (InsertException e) {
 				e.printStackTrace();}
-    }	@Ignore
+    }	
 		@Test(expected=LeadNotFoundException.class)
 		public void deleteLeadTest() throws LeadNotFoundException {
 			try {
@@ -67,7 +67,7 @@ public class LeadDaoJDBCSupportTest {
 				e.printStackTrace();
 			}			
 		}
-    	@Ignore
+    	
 		@Test(expected=LeadNotFoundException.class)
 		public void updateTest() throws LeadNotFoundException{
 			try {

@@ -151,12 +151,13 @@ public class leadController {
 	}
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public @ResponseBody List<Lead> getAll(
+	public  ResponseEntity<List<Lead>> getAll(
 		    HttpServletRequest request, 
 		    HttpServletResponse httpResponse) {
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		return leadService.getAll();
+		httpResponse.setStatus(HttpStatus.OK.value());
+		headers.setContentType(MediaType.TEXT_PLAIN);
+		return new ResponseEntity<List<Lead>>(leadService.getAll(),headers,HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(TypeMismatchException.class)
